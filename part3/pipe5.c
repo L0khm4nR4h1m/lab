@@ -29,16 +29,16 @@ void parentTask(int fd[2]) {
   	}
 
   	if (check == 0) {
-    		printf("%d is a prime number.", num);
+    		printf("The number %d is a prime number.\n\n", num);
 	}
   	else {
-    		printf("%d is not a prime number.", num);
+    		printf("The number %d is not a prime number.\n\n", num);
 	}
 }
 
 void childTask(int fd[2]) {
 	int n;
-	printf("Enter a number > ");
+	printf("\nEnter a number > ");
 	scanf("%d", &n);
 	
 	close(1);
