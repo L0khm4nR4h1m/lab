@@ -11,15 +11,29 @@ int main() {
 	pipe(fd);
 	pid_t pid = fork();
 
-	if (pid > 0) {
+	if (pid == 0) {
+		close(1);
+		close(fd[0]);
+		dup(fd[1]);
+
+		int n;
+
+		printf("Enter a number > ");
+		scanf("%d", &n);
+
+		write(fd[1], &n, sizeof(n));
+		exit(EXIT_SUCCESS);
+	}
+
+	else if (pid > 0) {
 		close(0);
 		close(fd[1]);
 		dup(fd[0]);
 
 		int num;
 		int check = 0;
-		printf("Waiting for number...\n");
 		read(fd[0], &num, sizeof(num));
+		printf("Waiting for number...\n");
 		wait(NULL);
 
 		if (num == 0 | num == 1) {
@@ -39,20 +53,6 @@ int main() {
 		else {
 			printf("The number %d is NOT a prime number", num);
 		}
-	}
-
-	else if (pid == 0) {
-		close(1);
-		close(fd[0]);
-		dup(fd[1]);
-
-		int n;
-
-		printf("Enter a number > ");
-		scanf("%d", &n);
-
-		write(fd[1], &n, sizeof(n));
-		exit(EXIT_SUCCESS);
 	}
 
 
