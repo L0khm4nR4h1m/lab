@@ -37,6 +37,7 @@ void parentTask(int fd[2]) {
 }
 
 void childTask(int fd[2]) {
+
 	int n;
 	printf("\nEnter a number > ");
 	scanf("%d", &n);
@@ -49,7 +50,18 @@ void childTask(int fd[2]) {
 	exit(EXIT_SUCCESS);
 }
 
+void sigint_handler(int sig) {
+	printf("This is a special signal handler for SIGINT\n");
+}
+
 int main(void) {
+
+	void sigint_handler (int sig);
+	if (signal(SIGINT, sigint_handler) == SIG_ERR) {
+		perror("signal");
+		exit(1);
+	}
+
 	int fd[2];
 	pipe(fd);
 	pid_t pid = fork();
