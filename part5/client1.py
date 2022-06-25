@@ -4,7 +4,7 @@ s = socket.socket()
 
 port = 8888
 
-s.connect(('192.168.114.6', port))
+s.connect(('192.168.1.222', port))
 
 data = s.recv(1024)
 
