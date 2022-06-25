@@ -52,9 +52,9 @@ int main() {
 		read(new_socket, str,sizeof(str));
 		n=strcmp(str, "BYE");
 		a=strcmp(str2, "BYE");
-	}
-	
+	} 
 	while(n != 0 || a != 0);
+	
 	close(new_socket);
 	close(socket_desc);
 	
