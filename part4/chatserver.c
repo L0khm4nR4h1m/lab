@@ -23,7 +23,7 @@ int main() {
 	}
 	
 	if(bind(socket_desc,(struct sockaddr *)&server, sizeof(server)) < 0) {
-		printf("Binding error")
+		printf("Binding error");
 		return 1;
 	}
 	
@@ -34,26 +34,22 @@ int main() {
 	}
 	
 	if((new_socket = accept(socket_desc,(struct sockaddr *)&client, &csize)) < 0) {
-		printf("Accept error")
+		printf("Accept error");
 		return 1;
 	}
 	else {
 		printf("\n now connected to %s\n",inet_ntoa(client.sin_addr));
-`	}
+	}
+	printf("\n");
 
-	read(new_socket,str,sizeof(str));
-
-	do {
-		printf("\n client msg:%s", str);
+	while (1) {
+		listen(new_socket, 1);
+		read(new_socket, str, sizeof(str));
+		printf("client msg:%s", str);
 		printf("\n server msg:");
-		scanf("%s", str2);
+		scanf("%[^\n]%*c", str2);
 		write(new_socket, str2, sizeof(str2));
-		listen(new_socket, 3);
-		read(new_socket, str,sizeof(str));
-		n=strcmp(str, "BYE");
-		a=strcmp(str2, "BYE");
 	} 
-	while(n != 0 || a != 0);
 	
 	close(new_socket);
 	close(socket_desc);

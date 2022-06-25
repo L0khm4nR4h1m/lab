@@ -4,6 +4,7 @@
 #include<arpa/inet.h>
 #include<netinet/in.h>
 #include<unistd.h>
+#include<string.h>
 
 int main(int argc, char*argv[]) {
 
@@ -26,24 +27,18 @@ int main(int argc, char*argv[]) {
 		return 1;
 	}
 	
-	printf("\nclient connected to 192.168.1.222");
-	printf("\nCLIENT");
-	scanf("%s", &str);
-	
-	if(write(socket_desc, str, sizeof(str)) < 0) {
-		printf("\n Message cannot be send");
-	}
-	
-	do {
-		listen(socket_desc, 3);
+	printf("\nclient connected to 192.168.1.222\n");
+	printf("\n");
+
+	while (1) {
+		printf("client msg:");
+		scanf("%[^\n]%*c", str);
+		write(socket_desc, str, sizeof(str));
+		listen(socket_desc, 1);
 		read(socket_desc, str2,sizeof(str2));
-		printf("\nserver msg:%s", str2);
-		printf("\nclient msg:");
-		scanf("%s", &str);
-		a=strcmp(str2, "BYE");
-		write(socket_desc, str2, sizeof(str2));
+		printf("server msg:%s", str2);
+		printf("\n");
 	} 
-	while(a!=0);
 	
 	close(socket_desc);
 	return 0;
