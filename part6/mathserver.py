@@ -5,7 +5,7 @@ import errno
 import math
 from multiprocessing import Process
 
-def process_start(s_sock):
+def process_start(s_sock, ipaddr):
     query = (
         'Welcome to the Calculator Server\n\n'
         'Pick an operation between:\n'
@@ -18,6 +18,7 @@ def process_start(s_sock):
     
     num_msg = 'Please enter an integer number'
     s_sock.send(str.encode(query))
+    print("Now connected to : ", ipaddr)
     
     while True:
         data = s_sock.recv(2048)
@@ -117,7 +118,7 @@ if __name__ == '__main__':
         while True:
             try:
                 s_sock, s_addr = s.accept()
-                p = Process(target=process_start, args=(s_sock,))
+                p = Process(target=process_start, args=(s_sock, str(s_addr[0]),))
                 p.start()
 
             except socket.error:
